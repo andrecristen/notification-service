@@ -5,23 +5,22 @@ const EmailObserver = require('./observers/EmailObserver');
 const WebSocketObserver = require('./observers/WebSocketObserver');
 
 const notificationService = new NotificationService();
-const emailObserver = new EmailObserver();
 const webSocketObserver = new WebSocketObserver();
+const emailObserver = new EmailObserver();
 
-notificationService.addObserver(emailObserver);
 notificationService.addObserver(webSocketObserver);
+notificationService.addObserver(emailObserver);
 
 async function start() {
     try {
         const channel = await connectRabbitMQ();
 
         channel.consume('notifications', (msg) => {
-            console.log("Nova mensagem na fila: ", msg);
+            console.log("Nova mensagem na fila...");
             if (msg !== null) {
                 try {
                     const content = msg.content.toString();
                     if (content) {
-                        console.log("Conteúdo da mensagem: ", content);
                         const message = JSON.parse(content);
                         notificationService.notify(message);
                     } else {

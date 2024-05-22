@@ -10,7 +10,12 @@ class NotificationService {
 
     notify(message) {
         for (const observer of this.observers) {
-            observer.update(message);
+            try {
+                console.log("Notificando observer: ", observer.constructor.name);
+                observer.update(message);
+            } catch (error) {
+                console.log("Erro ao propagar observer: ", observer);
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ class WebSocketObserver {
   }
 
   update(message) {
-    if (this.clients) {
+    if (this.clients.size > 0) {
       for (const client of this.clients) {
         if (client.readyState === WebSocket.OPEN) {
           client.send(JSON.stringify(message));
