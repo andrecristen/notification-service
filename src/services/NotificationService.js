@@ -1,4 +1,5 @@
 class NotificationService {
+
     constructor() {
         this.observers = [];
     }

@@ -14,10 +14,14 @@ class WebSocketObserver {
   }
 
   update(message) {
-    for (const client of this.clients) {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(JSON.stringify(message));
+    if (this.clients) {
+      for (const client of this.clients) {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify(message));
+        }
       }
+    } else {
+      console.log("Nenhuma conexão de WebSocket ativa.");
     }
   }
 }

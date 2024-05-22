@@ -1,5 +1,5 @@
 require('dotenv').config();
-const connectRabbitMQ = require('./rabbitmq');
+const connectRabbitMQ = require('./retryRabbitMQ');
 const NotificationService = require('./services/NotificationService');
 const EmailObserver = require('./observers/EmailObserver');
 const WebSocketObserver = require('./observers/WebSocketObserver');
@@ -12,19 +12,25 @@ notificationService.addObserver(emailObserver);
 notificationService.addObserver(webSocketObserver);
 
 async function start() {
-    const channel = await connectRabbitMQ();
+    try {
+        const channel = await connectRabbitMQ();
 
-    channel.consume('notifications', (msg) => {
-        if (msg !== null) {
-            const message = JSON.parse(msg.content.toString());
-            notificationService.notify(message);
-            channel.ack(msg);
-        }
-    }, {
-        noAck: false
-    });
+        channel.consume('notifications', (msg) => {
+            console.log("Nova mensagem: ", msg);
+            if (msg !== null) {
+                const message = JSON.parse(msg.content.toString());
+                notificationService.notify(message);
+                channel.ack(msg);
+            }
+        }, {
+            noAck: false
+        });
 
-    console.log('Notification service is running...');
+        console.log('Serviço de notificações está em execução...');
+    } catch (error) {
+        console.error(error.message);
+        process.exit(1);
+    }
 }
 
 start().catch(console.error);

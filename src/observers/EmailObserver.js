@@ -25,7 +25,7 @@ class EmailObserver {
       if (error) {
         return console.log(error);
       }
-      console.log('Email sent: ' + info.response);
+      console.log('Email enviado: ' + info.response);
     });
   }
 }
