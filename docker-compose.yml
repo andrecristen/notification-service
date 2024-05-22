@@ -1,4 +1,7 @@
 version: '3.8'
+networks:
+  rabbitmq-network:
+    external: true
 
 services:
   rabbitmq:
@@ -7,6 +10,8 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - rabbitmq-network
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
@@ -18,6 +23,8 @@ services:
       - "${WEBSOCKET_PORT}:${WEBSOCKET_PORT}"
     depends_on:
       - rabbitmq
+    networks:
+      - rabbitmq-network
     environment:
       RABBITMQ_URL: ${RABBITMQ_URL}
       EMAIL_SERVICE: ${EMAIL_SERVICE}
