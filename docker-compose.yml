@@ -15,12 +15,12 @@ services:
     build: .
     container_name: notification-service
     ports:
-      - "8080:8080"
+      - "${WEBSOCKET_PORT}:${WEBSOCKET_PORT}"
     depends_on:
       - rabbitmq
     environment:
-      RABBITMQ_URL: amqp://rabbitmq
-      EMAIL_SERVICE: smtp.example.com
-      EMAIL_USER: user@example.com
-      EMAIL_PASS: yourpassword
-      WEBSOCKET_PORT: 8080
+      RABBITMQ_URL: ${RABBITMQ_URL}
+      EMAIL_SERVICE: ${EMAIL_SERVICE}
+      EMAIL_USER: ${EMAIL_USER}
+      EMAIL_PASS: ${EMAIL_PASS}
+      WEBSOCKET_PORT: ${WEBSOCKET_PORT}
