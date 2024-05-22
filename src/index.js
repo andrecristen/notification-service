@@ -16,11 +16,22 @@ async function start() {
         const channel = await connectRabbitMQ();
 
         channel.consume('notifications', (msg) => {
-            console.log("Nova mensagem: ", msg);
+            console.log("Nova mensagem na fila: ", msg);
             if (msg !== null) {
-                const message = JSON.parse(msg.content.toString());
-                notificationService.notify(message);
-                channel.ack(msg);
+                try {
+                    const content = msg.content.toString();
+                    if (content) {
+                        console.log("Conteúdo da mensagem: ", content);
+                        const message = JSON.parse(content);
+                        notificationService.notify(message);
+                    } else {
+                        console.log("Mensagem fora do padrão: ", content);
+                    }
+                } catch (error) {
+                    console.log("Erro na mensagem: ", error);
+                } finally {
+                    channel.ack(msg);
+                }
             }
         }, {
             noAck: false
