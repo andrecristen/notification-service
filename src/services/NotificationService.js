@@ -8,15 +8,18 @@ class NotificationService {
         this.observers.push(observer);
     }
 
-    notify(message) {
+    async notify(message) {
+        let success = 0;
         for (const observer of this.observers) {
             try {
-                console.log("Notificando observer: ", observer.constructor.name);
-                observer.update(message);
+                if (await observer.update(message)) {
+                    success++;
+                }
             } catch (error) {
-                console.log("Erro ao propagar observer: ", observer);
+                return false;
             }
         }
+        return (success == this.observers.length);
     }
 }
 

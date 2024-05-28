@@ -13,15 +13,17 @@ class WebSocketObserver {
     });
   }
 
-  update(message) {
+  async update(message) {
     if (this.clients.size > 0) {
       for (const client of this.clients) {
         if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(message));
+          await client.send(JSON.stringify(message));
+          return true;
         }
       }
     } else {
       console.log("Nenhuma conexão de WebSocket ativa.");
+      return false;
     }
   }
 }
