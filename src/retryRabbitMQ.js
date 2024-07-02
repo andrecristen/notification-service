@@ -4,6 +4,7 @@ async function connectRabbitMQ(retries = 5) {
     const retryDelay = 15000; // 15 segundos de espera entre as tentativas
     while (retries > 0) {
         try {
+            console.log(`RabbitMQ URL: ${process.env.RABBITMQ_URL}`);
             const connection = await amqp.connect(process.env.RABBITMQ_URL);
             const channel = await connection.createChannel();
             await channel.assertQueue('notifications');
