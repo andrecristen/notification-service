@@ -23,11 +23,11 @@ class WebSocketObserver {
     });
   }
 
-   /**
-   * Envia uma notificação via WebSocket.
-   * @param {string} message - Mensagem da notificação.
-   * @returns {boolean} Retorna true se a notificação foi enviada com sucesso.
-   */
+  /**
+  * Envia uma notificação via WebSocket.
+  * @param {string} message - Mensagem da notificação.
+  * @returns {boolean} Retorna true se a notificação foi enviada com sucesso.
+  */
   async update(message) {
     if (this.clients.size > 0) {
       for (const client of this.clients) {
