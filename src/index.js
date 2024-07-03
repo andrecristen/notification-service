@@ -1,3 +1,8 @@
+/**
+ * Ponto de entrada principal do serviço.
+ * @module index
+ */
+
 require('dotenv').config();
 const connectRabbitMQ = require('./retryRabbitMQ');
 const NotificationService = require('./services/NotificationService');

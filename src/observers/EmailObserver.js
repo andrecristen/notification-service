@@ -1,7 +1,16 @@
 const nodemailer = require('nodemailer');
 
+/**
+ * Observador de email que lida com notificações enviadas por email.
+ * @class
+ */
 class EmailObserver {
 
+  /**
+   * Cria uma instância do EmailObserver.
+   * @constructor
+   * @param {Object} config - Configuração para o observador de email.
+   */
   constructor() {
     this.transporter = nodemailer.createTransport({
       service: "gmail",
@@ -12,6 +21,11 @@ class EmailObserver {
     });
   }
 
+  /**
+   * Envia uma notificação por email.
+   * @param {string} message - Mensagem da notificação.
+   * @returns {boolean} Retorna true se o email foi enviado com sucesso.
+   */
   async update(message) {
     const mailOptions = {
       from: process.env.EMAIL_USER,

@@ -1,5 +1,14 @@
+/**
+ * Classe que representa um serviço de notificação.
+ * @class
+ */
 class NotificationService {
 
+    /**
+     * Cria uma instância do NotificationService.
+     * @constructor
+     * @param {Object} config - Configuração para o serviço.
+     */
     constructor() {
         this.observers = [];
     }

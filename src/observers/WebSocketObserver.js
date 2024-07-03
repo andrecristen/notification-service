@@ -1,6 +1,16 @@
 const WebSocket = require('ws');
 
+/**
+ * Observador de WebSocket que lida com notificações enviadas via WebSocket.
+ * @class
+ */
 class WebSocketObserver {
+
+  /**
+   * Cria uma instância do WebSocketObserver.
+   * @constructor
+   * @param {Object} config - Configuração para o observador de WebSocket.
+   */
   constructor() {
     this.wss = new WebSocket.Server({ port: process.env.WEBSOCKET_PORT });
     this.clients = new Set();
@@ -13,6 +23,11 @@ class WebSocketObserver {
     });
   }
 
+   /**
+   * Envia uma notificação via WebSocket.
+   * @param {string} message - Mensagem da notificação.
+   * @returns {boolean} Retorna true se a notificação foi enviada com sucesso.
+   */
   async update(message) {
     if (this.clients.size > 0) {
       for (const client of this.clients) {
