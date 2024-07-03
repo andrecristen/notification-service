@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: services/NotificationService.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,53 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: services/NotificationService.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Classe que representa um serviço de notificação.
+ * @class
+ */
+class NotificationService {
 
+    /**
+     * Cria uma instância do NotificationService.
+     * @constructor
+     * @param {Object} config - Configuração para o serviço.
+     */
+    constructor() {
+        this.observers = [];
+    }
 
-    <h3> </h3>
+    addObserver(observer) {
+        this.observers.push(observer);
+    }
 
+    async notify(message) {
+        let success = 0;
+        for (const observer of this.observers) {
+            try {
+                if (await observer.update(message)) {
+                    success++;
+                }
+            } catch (error) {
+                return false;
+            }
+        }
+        return (success == this.observers.length);
+    }
+}
 
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = NotificationService;
+</code></pre>
+        </article>
+    </section>
 
 
 
